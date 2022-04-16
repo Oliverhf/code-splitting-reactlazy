@@ -22,7 +22,7 @@ const Home = () => {
             <i>{data.email}</i>
             <p>{data.description}</p>
             
-            <p>Id<strong>{data.id}</strong></p>
+            <p>Id </p><strong>{data.id}</strong>
           
            </> : <strong>Data not found</strong>}
         </S.Aside>
