@@ -7,6 +7,7 @@ const Topics = () => {
   const {rawData} =  useContext(AppContext)
   console.log(rawData)
 
+
   if(!rawData)
   return <p>Loading..</p>
 
@@ -14,14 +15,16 @@ const Topics = () => {
   <>
   <Header />
   <h1>Topics</h1>
-    <li>{rawData.user1.email}</li>
-    <li>{rawData.user1.name}</li>
-    <li>{rawData.user1.id}</li>
-    <li>{rawData.user1.description}</li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
+  <ul>
+   {rawData.map((data) => (
+     
+      <li key={data?.id}>
+        <p>{data?.email}</p>
+        <p>{data?.name}</p>
+        <p>{data?.id}</p>
+      </li>
+   ))}
+   </ul>
   </>
   )
 }
