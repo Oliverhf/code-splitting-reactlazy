@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState, lazy} from "react";
+import React, { createContext, useState, useEffect, useCallback, lazy} from "react";
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "./styles/global";
 import axios  from "axios";
@@ -22,13 +22,6 @@ export default function App() {
   const Settings = lazy(() => import("./Pages/Settings/Settings.jsx")) ;
   const Topics = lazy(() => import("./Pages/Topics/Topics.jsx")) ;
   const [theme, setTheme] = usePersistedState('theme', light);
-
-  const [data, setData] = useState({
-    email: "",
-    id: "",
-    description:  "",
-    name: ""
-  });
 
 
   const [rawData, setRawData] = useState({
@@ -81,22 +74,18 @@ export default function App() {
     name: ""
    },
   })
-      
-
+  
 
   const toggleTheme = () => {
     setTheme(theme.title === 'light' ? dark : light);
   };
 
+
+
+
   useEffect(() => {
       axios.get("https://jsonplaceholder.typicode.com/comments")
       .then((response) => {
-       setData({
-         email: response.data[0].email,
-         id: response.data[0].id,
-         description: response.data[0].body,
-         name: response.data[0].name
-       })
        setRawData({
          user1: {
           email: response.data[0].email,
@@ -147,19 +136,23 @@ export default function App() {
           name: response.data[7].name
          },
        })
-        console.log(data)
+        console.log("COME HERE")
       })
   },[])
 
+  const returnData = useCallback((user) => {
+    return rawData
+  },[rawData])
+
   return (
-    <AppContext.Provider value={{toggleTheme, data, rawData}}>
+    <AppContext.Provider value={{toggleTheme, rawData}}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <BrowserRouter>
         <React.Suspense fallback={<p>Loading...</p>}>
         <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route  path='topics' element={<Topics />} />
+          <Route  exact path='/' element={<Home />} />
+          <Route  path='topics' element={<Topics returnData={returnData} />} />
           <Route  path='settings' element={<Settings />}/>
         </Routes>
         </React.Suspense>

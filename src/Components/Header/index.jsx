@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import { AppContext } from '../../App'
 import Switch from 'react-switch'
 import * as S from './styles'
@@ -8,9 +8,18 @@ import {  Link  } from 'react-router-dom'
 
 const Header = () => {
 
-    const { colors , title } = useContext(ThemeContext)
+    const { colors } = useContext(ThemeContext)
+
+    const [dark, setDark] = useState(false)
 
     const {toggleTheme} = useContext(AppContext)
+ 
+    const handleChange = () => {
+      setTimeout(() => {
+        toggleTheme()
+      }, 100)
+      dark ? setDark(false) : setDark(true)
+    }
 
   return (
     <S.Container>
@@ -23,8 +32,8 @@ const Header = () => {
         </header>
         
         <Switch 
-            onChange={toggleTheme}
-            checked={title === 'dark'}
+            onChange={handleChange}
+            checked={dark}
             checkedIcon={false}
             uncheckedIcon={false}
             height={20}

@@ -7,6 +7,7 @@ export default createGlobalStyle `
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition: all 0.25s linear;
 }
 
 body {
@@ -15,5 +16,8 @@ body {
     color: ${props => props.theme.colors.text};
     font-family: sans-serif;
 }
+
+
+
 
 `
